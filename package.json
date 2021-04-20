@@ -1,0 +1,12 @@
+{
+  "name": "ts-streams",
+  "version": "1.0.0",
+  "description": "Testing out node streams",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Morgan",
+  "license": "ISC",
+  "dependencies": {}
+}
