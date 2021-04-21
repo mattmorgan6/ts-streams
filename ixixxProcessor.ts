@@ -1,8 +1,10 @@
 import child = require('child_process');
 
-export function helloWorld(){
-    const inputFilePath: string = "./test/test1/input.txt"
-    const ls = child.spawn('./ixIxx', [inputFilePath, "out.ix", "out.ixx"]);
+export function runIxIxx(){
+    const inputFilePath: string = "./test/test2/input.txt";
+    const ixFileName: string = "out.ix";
+    const ixxFileName: string = "out.ixx";
+    const ls = child.spawn('./ixIxx', [inputFilePath, ixFileName, ixxFileName]);
 
     ls.stdout.on('data', (data) => {
     console.log(`stdout: ${data}`);

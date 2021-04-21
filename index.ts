@@ -1,6 +1,6 @@
-import {helloWorld} from './ixixxProcessor';
+import {runIxIxx} from './ixixxProcessor';
 
 
 let message: string = 'Hello World';
 //console.log(message);
-helloWorld();
+runIxIxx();
