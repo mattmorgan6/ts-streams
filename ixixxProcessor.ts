@@ -1,20 +1,43 @@
 import child = require('child_process');
+import fs = require('fs');
 
 export function runIxIxx(){
-    const inputFilePath: string = "./test/test2/input.txt";
+    const inputFilePath: string = "./test/test1/input.txt";
     const ixFileName: string = "out.ix";
     const ixxFileName: string = "out.ixx";
-    const ls = child.spawn('./ixIxx', [inputFilePath, ixFileName, ixxFileName]);
 
-    ls.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
+    // For now just read in the input file to readStream for testing.
+    const readStream = fs.createReadStream(inputFilePath);
+
+    // // Handle stream events --> data, end, and error
+    // readStream.on('data', function(chunk) {
+    //     console.log(data);
+    // });
+    
+    // readStream.on('end',function() {
+    //     console.log(data);
+    // });
+    
+    // readStream.on('error', function(err) {
+    //     console.log(err.stack);
+    // });
+    
+
+    const ixProcess = child.spawn('cat | ./ixIxx /dev/stdin $1 $2', [ixFileName, ixxFileName], { shell: true });
+    // Pass the readStream as stdin into ixProcess.
+    readStream.pipe(ixProcess.stdin);
+
+    ixProcess.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
     });
 
-    ls.stderr.on('data', (data) => {
-    console.error(`stderr: ${data}`);
+    ixProcess.stderr.on('data', (data) => {
+        console.error(`stderr: ${data}`);
     });
 
-    ls.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+    ixProcess.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
     });
+
+    console.log("Done!");
 }
