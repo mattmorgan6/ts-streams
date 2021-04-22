@@ -1,5 +1,6 @@
 import child = require('child_process');
 import fs = require('fs');
+import { read } from 'node:fs';
 
 export function runIxIxx(readStream: fs.ReadStream){
     const ixFileName: string = "out.ix";
@@ -9,9 +10,16 @@ export function runIxIxx(readStream: fs.ReadStream){
     //     console.log(err.stack);
     // });
     
-    const ixProcess = child.spawn('cat | ./ixIxx /dev/stdin $1 $2', [ixFileName, ixxFileName], { shell: true });
+    const ixProcess = child.spawn('cat | ./ixIxx /dev/stdin', [ixFileName, ixxFileName], { shell: true });
+    
+    // TODO: Sanitize the readStream because we are passing to the shell.
     // Pass the readStream as stdin into ixProcess.
     readStream.pipe(ixProcess.stdin);
+
+    // End the ixProcess stdin when the stream is done.
+    readStream.on('end', (data) => {
+        ixProcess.stdin.end();
+    });
 
     ixProcess.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
