@@ -1,0 +1,531 @@
+{
+  "seq_id": "Group1.36",
+  "source": "AU9",
+  "type": "gene",
+  "start": 176975,
+  "end": 180744,
+  "score": 0.84,
+  "strand": "+",
+  "phase": null,
+  "attributes": {
+    "ID": [
+      "au9.g1002"
+    ],
+    "Name": [
+      "au9.g1002"
+    ]
+  },
+  "child_features": [
+    [
+      {
+        "seq_id": "Group1.36",
+        "source": "AU9",
+        "type": "mRNA",
+        "start": 176975,
+        "end": 180744,
+        "score": 0.84,
+        "strand": "+",
+        "phase": null,
+        "attributes": {
+          "ID": [
+            "au9.g1002.t1"
+          ],
+          "Name": [
+            "au9.g1002.t1"
+          ],
+          "Parent": [
+            "au9.g1002"
+          ]
+        },
+        "child_features": [
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "five_prime_UTR",
+              "start": 176975,
+              "end": 177109,
+              "score": 0.98,
+              "strand": "+",
+              "phase": null,
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "start_codon",
+              "start": 177110,
+              "end": 177112,
+              "score": null,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 177110,
+              "end": 177148,
+              "score": 1,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 177615,
+              "end": 177683,
+              "score": 1,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 177758,
+              "end": 178040,
+              "score": 1,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 178142,
+              "end": 178319,
+              "score": 1,
+              "strand": "+",
+              "phase": "2",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 178411,
+              "end": 178687,
+              "score": 1,
+              "strand": "+",
+              "phase": "1",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 178748,
+              "end": 178850,
+              "score": 1,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 178953,
+              "end": 179098,
+              "score": 1,
+              "strand": "+",
+              "phase": "2",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 179166,
+              "end": 179320,
+              "score": 1,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 179419,
+              "end": 179614,
+              "score": 1,
+              "strand": "+",
+              "phase": "1",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 179708,
+              "end": 179811,
+              "score": 1,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 179927,
+              "end": 180239,
+              "score": 1,
+              "strand": "+",
+              "phase": "1",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 180414,
+              "end": 180494,
+              "score": 1,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "stop_codon",
+              "start": 180492,
+              "end": 180494,
+              "score": null,
+              "strand": "+",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "three_prime_UTR",
+              "start": 180495,
+              "end": 180744,
+              "score": 0.86,
+              "strand": "+",
+              "phase": null,
+              "attributes": {
+                "Parent": [
+                  "au9.g1002.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ]
+        ],
+        "derived_features": []
+      }
+    ]
+  ],
+  "derived_features": []
+}
+{
+  "seq_id": "Group1.36",
+  "source": "AU9",
+  "type": "gene",
+  "start": 165558,
+  "end": 166984,
+  "score": 0.16,
+  "strand": "-",
+  "phase": null,
+  "attributes": {
+    "ID": [
+      "au9.g999"
+    ],
+    "Name": [
+      "au9.g999"
+    ]
+  },
+  "child_features": [
+    [
+      {
+        "seq_id": "Group1.36",
+        "source": "AU9",
+        "type": "mRNA",
+        "start": 165558,
+        "end": 166984,
+        "score": 0.16,
+        "strand": "-",
+        "phase": null,
+        "attributes": {
+          "ID": [
+            "au9.g999.t1"
+          ],
+          "Name": [
+            "au9.g999.t1"
+          ],
+          "Parent": [
+            "au9.g999"
+          ]
+        },
+        "child_features": [
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "three_prime_UTR",
+              "start": 165558,
+              "end": 165783,
+              "score": 0.2,
+              "strand": "-",
+              "phase": null,
+              "attributes": {
+                "Parent": [
+                  "au9.g999.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "stop_codon",
+              "start": 165784,
+              "end": 165786,
+              "score": null,
+              "strand": "-",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g999.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 165784,
+              "end": 166545,
+              "score": 1,
+              "strand": "-",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g999.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "CDS",
+              "start": 166608,
+              "end": 166799,
+              "score": 1,
+              "strand": "-",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g999.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "start_codon",
+              "start": 166797,
+              "end": 166799,
+              "score": null,
+              "strand": "-",
+              "phase": "0",
+              "attributes": {
+                "Parent": [
+                  "au9.g999.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "five_prime_UTR",
+              "start": 166800,
+              "end": 166856,
+              "score": 1,
+              "strand": "-",
+              "phase": null,
+              "attributes": {
+                "Parent": [
+                  "au9.g999.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ],
+          [
+            {
+              "seq_id": "Group1.36",
+              "source": "AU9",
+              "type": "five_prime_UTR",
+              "start": 166945,
+              "end": 166984,
+              "score": 0.71,
+              "strand": "-",
+              "phase": null,
+              "attributes": {
+                "Parent": [
+                  "au9.g999.t1"
+                ]
+              },
+              "child_features": [],
+              "derived_features": []
+            }
+          ]
+        ],
+        "derived_features": []
+      }
+    ]
+  ],
+  "derived_features": []
+}
