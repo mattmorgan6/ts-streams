@@ -28,3 +28,15 @@ export function ParseGff3(){
     runIxIxx(ReadFile);
         
 }
+
+/*
+// Return a string of line-separate nameRecords
+global str: string
+function recurse(record) {
+    str += ID and name...
+    for each child_feature
+        recurse(record.child_feature[i])
+
+}
+
+*/

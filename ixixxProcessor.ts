@@ -11,13 +11,12 @@ export function runIxIxx(readStream: ReadStream){
     // });
     
     const ixProcess = child.spawn('cat | ./ixIxx /dev/stdin', [ixFileName, ixxFileName], { shell: true });
-    
-    // TODO: Sanitize the readStream because we are passing to the shell.
+
     // Pass the readStream as stdin into ixProcess.
     readStream.pipe(ixProcess.stdin);
 
     // End the ixProcess stdin when the stream is done.
-    readStream.on('end', (data) => {
+    readStream.on('end', () => {
         ixProcess.stdin.end();
     });
 
