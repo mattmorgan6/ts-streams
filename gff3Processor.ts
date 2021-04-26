@@ -22,18 +22,15 @@ export function ParseGff3(){
         }
     })
         
-    const ReadFile: ReadStream = gff3In.pipe(gff.parseStream({parseSequences: false})).pipe(gffTranform);
+    const gff3Stream: ReadStream = gff3In.pipe(gff.parseStream({parseSequences: false})).pipe(gffTranform);
         
-    runIxIxx(ReadFile);
-        
+    runIxIxx(gff3Stream);
 }
 
 
-// Return a string of line-separate nameRecords
-
 function recurse(record) {
     let str: string = "";
-    if(!(typeof record.attributes.Name  === 'undefined') && !(typeof record.attributes.ID  === 'undefined')){
+    if(record.attributes.Name && record.attributes.ID){
         str = (`${record.attributes.ID} ${record.attributes.Name} ${record.attributes.ID}\n`)
     }
 
