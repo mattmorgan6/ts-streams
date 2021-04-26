@@ -16,8 +16,8 @@ export function ParseGff3(){
         objectMode: true,
         transform: (chunk, encoding, done) => {
             chunk.forEach(record => {
-                let str: string = recurse(record);
-                done(null, str);
+                recurseFeatures(record, gff3Stream);
+                done();
             });
         }
     })
@@ -28,17 +28,16 @@ export function ParseGff3(){
 }
 
 
-function recurse(record) {
-    let str: string = "";
+function recurseFeatures(record, gff3Stream: ReadStream) {
     if(record.attributes.Name && record.attributes.ID){
-        str = (`${record.attributes.ID} ${record.attributes.Name} ${record.attributes.ID}\n`)
+        let str: string = (`${record.attributes.ID} ${record.attributes.Name} ${record.attributes.ID}\n`)
+        gff3Stream.push(str);
     }
 
     for(let j = 0; record.length; j++){
         for(let i = 0; i < record[j].child_features.length;i++){
-            str += recurse(record[j].child_features[i]);
+            recurseFeatures(record[j].child_features[i], gff3Stream);
         }
     }
-    return str;
 }
 
