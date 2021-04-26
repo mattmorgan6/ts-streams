@@ -7,7 +7,7 @@ import {runIxIxx} from './ixixxProcessor';
 
 export function ParseGff3(){
 
-    const gff3FileName: string = "./test/au9_scaffold_subset_sync.gff3";
+    const gff3FileName: string = "./test/two_records.gff3";
     const gff3FileName2: string = "./test/au9_scaffold_subset.gff3";
 
     const gff3In = createReadStream(gff3FileName);
@@ -17,8 +17,10 @@ export function ParseGff3(){
         transform: (chunk, encoding, done) => {
             chunk.forEach(record => {
                 //console.log(`${record.attributes.ID} ${record.attributes.Name}\n`);
-                const res = (`${record.attributes.ID} ${record.attributes.Name}\n`);
-                done(null, res);
+                //console.log(`${record.child_features.Name}`)
+                //const res = (`${record.attributes.ID} ${record.attributes.Name}\n`);
+                recurse(record);
+                done(null, str);
             });
         }
     })
@@ -29,14 +31,19 @@ export function ParseGff3(){
         
 }
 
-/*
-// Return a string of line-separate nameRecords
-global str: string
-function recurse(record) {
-    str += ID and name...
-    for each child_feature
-        recurse(record.child_feature[i])
 
+// Return a string of line-separate nameRecords
+var str: string;
+function recurse(record) {
+    if(typeof record.child_features === "undefined"){
+        console.log("bang");
+    }
+    str += (`${record.attributes.Name} ${record.attributes.ID}`)
+    /*record.forEach(childRec => {
+        recurse(childRec.child_features);
+    })*/
+    for(let i = 0; i < record.child_features.length;i++){
+        recurse(record.child_features[i]);
+    }
 }
 
-*/
