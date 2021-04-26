@@ -16,10 +16,7 @@ export function ParseGff3(){
         objectMode: true,
         transform: (chunk, encoding, done) => {
             chunk.forEach(record => {
-                //console.log(`${record.attributes.ID} ${record.attributes.Name}\n`);
-                //console.log(`${record.child_features.Name}`)
-                //const res = (`${record.attributes.ID} ${record.attributes.Name}\n`);
-                recurse(record);
+                let str: string = recurse(record);
                 done(null, str);
             });
         }
@@ -33,18 +30,18 @@ export function ParseGff3(){
 
 
 // Return a string of line-separate nameRecords
-var str: string;
-function recurse(record) {
 
+function recurse(record) {
+    let str: string = "";
     if(!(typeof record.attributes.Name  === 'undefined') && !(typeof record.attributes.ID  === 'undefined')){
-        str += (`${record.attributes.ID} ${record.attributes.Name} ${record.attributes.ID}\n`)
+        str = (`${record.attributes.ID} ${record.attributes.Name} ${record.attributes.ID}\n`)
     }
 
     for(let j = 0; record.length; j++){
         for(let i = 0; i < record[j].child_features.length;i++){
-            recurse(record[j].child_features[i]);
+            str += recurse(record[j].child_features[i]);
         }
     }
-    
+    return str;
 }
 
