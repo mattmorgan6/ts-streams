@@ -1,5 +1,6 @@
 import gff from '@gmod/gff';
-import fs = require('fs');
+// import fs = require('fs');
+import { ReadStream, createReadStream } from 'fs';
 import transformStream = require('stream');
 import { Transform } from 'stream';
 import {runIxIxx} from './ixixxProcessor';
@@ -9,7 +10,7 @@ export function ParseGff3(){
     const gff3FileName: string = "./test/au9_scaffold_subset_sync.gff3";
     const gff3FileName2: string = "./test/au9_scaffold_subset.gff3";
 
-    const gff3In = fs.createReadStream(gff3FileName);
+    const gff3In = createReadStream(gff3FileName);
 
     const gffTranform = new Transform({
         objectMode: true,
@@ -22,7 +23,7 @@ export function ParseGff3(){
         }
     })
         
-    const ReadFile: fs.ReadStream = gff3In.pipe(gff.parseStream({parseSequences: false})).pipe(gffTranform);
+    const ReadFile: ReadStream = gff3In.pipe(gff.parseStream({parseSequences: false})).pipe(gffTranform);
         
     runIxIxx(ReadFile);
         

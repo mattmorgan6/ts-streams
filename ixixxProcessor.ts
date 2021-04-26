@@ -1,8 +1,8 @@
 import child = require('child_process');
-import fs = require('fs');
+import { ReadStream}  from 'fs';
 import { read } from 'node:fs';
 
-export function runIxIxx(readStream: fs.ReadStream){
+export function runIxIxx(readStream: ReadStream){
     const ixFileName: string = "out.ix";
     const ixxFileName: string = "out.ixx";
 
@@ -33,5 +33,5 @@ export function runIxIxx(readStream: fs.ReadStream){
         console.log(`child process exited with code ${code}`);
     });
 
-    console.log("Done!");
+    console.log(`Done! Check ${ixFileName} and ${ixxFileName} files for output.`);
 }
