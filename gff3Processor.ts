@@ -29,9 +29,12 @@ export function ParseGff3(){
 
 
 function recurseFeatures(record, gff3Stream: ReadStream) {
+
+    var arr = [record.attributes.ID, record.attributes.Name, record.seq_id, record.start, record.end];
+
     if(record.attributes.Name && record.attributes.ID){
 
-        let buff =  Buffer.from(JSON.stringify(record.attributes.ID, record.attributes.Name, record.attributes.seq_id), 'utf-8');
+        let buff =  Buffer.from(JSON.stringify(arr), 'utf-8');
 
         let str: string = (`${buff.toString('base64')} ${record.attributes.ID} ${record.attributes.Name} ${record.attributes.ID}\n`)
         gff3Stream.push(str);
