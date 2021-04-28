@@ -4,7 +4,17 @@ import transformStream = require('stream');
 import { Transform } from 'stream';
 import {runIxIxx} from './ixixxProcessor';
 
+type RecordData = {
+    attributes: any;
+    start: Number;
+    end: Number;
+    seq_id: String;
+    length:Number;
+};
+
 export function ParseGff3(gff3In: ReadStream){
+
+    
 
     const gffTranform = new Transform({
         objectMode: true,
@@ -22,7 +32,7 @@ export function ParseGff3(gff3In: ReadStream){
 }
 
 
-function recurseFeatures(record, gff3Stream: ReadStream) {
+function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
 
     const recordObj = { "ID":record.attributes.ID,
                         "Name":record.attributes.Name,
