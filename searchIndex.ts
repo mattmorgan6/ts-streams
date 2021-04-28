@@ -8,7 +8,7 @@ export async function doStuff(searchWord: string, ixFilePath: string, ixxFilePat
     const ixxFile = new LocalFile(ixxFilePath);
     const ixFile = new LocalFile(ixFilePath);
     var buff;
-    let searchResult: string []= [];
+    let searchResult: Array<string> = [];
 
     const trix = new Trix(ixxFile, ixFile);
 
