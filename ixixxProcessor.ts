@@ -1,4 +1,4 @@
-import child = require('child_process');
+import { spawn }  from 'child_process';
 import { ReadStream}  from 'fs';
 import { read } from 'node:fs';
 
@@ -10,7 +10,7 @@ export function runIxIxx(readStream: ReadStream){
     //     console.log(err.stack);
     // });
     
-    const ixProcess = child.spawn('cat | ./ixIxx /dev/stdin', [ixFileName, ixxFileName], { shell: true });
+    const ixProcess = spawn('cat | ./ixIxx /dev/stdin', [ixFileName, ixxFileName], { shell: true });
 
     // Pass the readStream as stdin into ixProcess.
     readStream.pipe(ixProcess.stdin);
