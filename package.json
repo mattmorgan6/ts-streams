@@ -10,7 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "@gmod/gff": "^1.1.2",
-    "@gmod/trix": "^0.2.0"
+    "@gmod/trix": "^0.2.0",
+    "generic-filehandle": "^2.1.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.41"
