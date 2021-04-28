@@ -1,16 +1,10 @@
 import gff from '@gmod/gff';
-// import fs = require('fs');
-import { ReadStream, createReadStream } from 'fs';
+import { ReadStream } from 'fs';
 import transformStream = require('stream');
 import { Transform } from 'stream';
 import {runIxIxx} from './ixixxProcessor';
 
-export function ParseGff3(){
-
-    const gff3FileName: string = "./test/two_records.gff3";
-    const gff3FileName2: string = "./test/au9_scaffold_subset.gff3";
-
-    const gff3In = createReadStream(gff3FileName2);
+export function ParseGff3(gff3In: ReadStream){
 
     const gffTranform = new Transform({
         objectMode: true,
