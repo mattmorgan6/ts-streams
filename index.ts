@@ -1,7 +1,7 @@
 import {runIxIxx} from './ixixxProcessor';
 import {ParseGff3} from './gff3Processor';
 import fs = require('fs');
-import { doStuff } from './searchIndex';
+import { testSearch } from './searchIndex';
 
 /*
 // For now just read in the input file to readStream for testing.
@@ -16,4 +16,4 @@ ParseGff3();
 const ixFileName: string = "out.ix";
 const ixxFileName: string = "out.ixx";
 
-doStuff("au", ixFileName, ixxFileName);
+testSearch("au9.g36", ixFileName, ixxFileName);

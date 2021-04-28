@@ -10,7 +10,7 @@ export function ParseGff3(){
     const gff3FileName: string = "./test/two_records.gff3";
     const gff3FileName2: string = "./test/au9_scaffold_subset.gff3";
 
-    const gff3In = createReadStream(gff3FileName);
+    const gff3In = createReadStream(gff3FileName2);
 
     const gffTranform = new Transform({
         objectMode: true,
