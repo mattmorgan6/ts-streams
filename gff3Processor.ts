@@ -18,7 +18,7 @@ export function ParseGff3(gff3In: ReadStream){
         objectMode: true,
         transform: (chunk, _encoding, done) => {
             chunk.forEach((record: RecordData) => {
-                this._recurseFeatures(record, gff3Stream)
+                recurseFeatures(record, gff3Stream)
                 done()
             })
         }

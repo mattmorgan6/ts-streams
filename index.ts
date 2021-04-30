@@ -14,11 +14,15 @@ runIxIxx(readStream)
 
 const gff3FileName: string = "./test/two_records.gff3";
 const gff3FileName2: string = "./test/au9_scaffold_subset.gff3";
+const gff3FileName3: string = "./test/quantitative.gff3";
+const gff3FileName4: string = "./test/NT_077402.2.gene.gff3";
+const gff3FileName5: string = "./test/SL2.40ch10_sample.gff3";
+const gff3FileName6: string = "./test/embedded_sequence.gff3";
 
-const gff3In = createReadStream(gff3FileName2);
+const gff3In = createReadStream(gff3FileName6);
 ParseGff3(gff3In);
 
 const ixFileName: string = "out.ix";
 const ixxFileName: string = "out.ixx";
 
-testSearch("au9.g36", ixFileName, ixxFileName);
+// testSearch("au9.g36", ixFileName, ixxFileName);
