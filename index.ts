@@ -19,7 +19,7 @@ const gff3FileName3: string = "./test/quantitative.gff3";
 const gff3FileName4: string = "./test/NT_077402.2.gene.gff3";
 const gff3FileName5: string = "./test/SL2.40ch10_sample.gff3";
 const gff3FileName6: string = "./test/embedded_sequence.gff3";
-const gff3FileName7: string = "https://github.com/GMOD/jbrowse/blob/master/tests/data/au9_scaffold_subset_sync.gff3?raw=true";
+const gff3FileName7: string = "https://raw.githubusercontent.com/GMOD/jbrowse/master/tests/data/au9_scaffold_subset_sync.gff3";
 
 //gzip files
 const gff3FileName8: string = "./test/volvox.sort.gff3.gz";
