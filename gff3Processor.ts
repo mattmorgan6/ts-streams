@@ -13,7 +13,6 @@ type RecordData = {
 };
 
 export function ParseGff3(gff3In: ReadStream){
-
     const gffTranform = new Transform({
         objectMode: true,
         transform: (chunk, _encoding, done) => {
@@ -28,7 +27,6 @@ export function ParseGff3(gff3In: ReadStream){
     
     runIxIxx(gff3Stream)
 }
-
 
 function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
 
@@ -52,5 +50,17 @@ function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
             recurseFeatures(record[j].child_features[i], gff3Stream);
         }
     }
+}
+
+export function isURL(FileName: string){
+    let url;
+
+    try{
+        url = new URL(FileName);
+    } catch (_){
+        return false;
+    }
+
+    return url.protocol === "http:" || url.protocol === "https:";
 }
 
