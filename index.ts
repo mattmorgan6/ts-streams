@@ -30,7 +30,7 @@ const cotton: string = "./test/gene.Garb.CRI.gff3.gz"; // fail out.ix is empty
 const remoteCottonFile = 'https://cottonfgd.org/about/download/annotation/gene.Garb.CRI.gff3.gz'; // pass
 const testFile: string = 'http://128.206.12.216/drupal/sites/bovinegenome.org/files/data/umd3.1/Ensembl_Mus_musculus.NCBIM37.67.pep.all_vs_UMD3.1.gff3.gz'; //pass
 
-const file: string = gff3FileName8;
+const file: string = gff3FileName2;
 let isGzipped: boolean;
 
 if(isURL(file)){
@@ -38,8 +38,14 @@ if(isURL(file)){
     ParseGff3URL(file, isGzipped);
 }else{
     const gff3In = createReadStream(file);
-    isGzip(gff3In);
-    //ParseGff3(gff3In);
+
+    if(file.includes('.gz')){
+        console.log("This file is gzipped");
+        isGzip(gff3In);
+    }else{
+        console.log("not gzipped");
+        ParseGff3(gff3In);
+    }
 }
 
 
