@@ -20,19 +20,23 @@ const gff3FileName4: string = "./test/NT_077402.2.gene.gff3";
 const gff3FileName5: string = "./test/SL2.40ch10_sample.gff3";
 const gff3FileName6: string = "./test/embedded_sequence.gff3";
 const gff3FileName7: string = "https://raw.githubusercontent.com/GMOD/jbrowse/master/tests/data/au9_scaffold_subset_sync.gff3";
+const gff3FileName11: string = "https://github.com/GMOD/jbrowse-components/raw/cli_trix_indexer/test_data/volvox/volvox.sort.gff3.gz";
 
 //gzip files
 const gff3FileName8: string = "./test/volvox.sort.gff3.gz";
 const gff3FileName9: string = "https://github.com/GMOD/jbrowse-components/blob/cli_trix_indexer/test_data/volvox/volvox.sort.gff3.gz?raw=true";
+const cotton: string = "./test/gene.Garb.CRI.gff3.gz";
 
-const testURL: string = "https://github.com/mattmorgan6/ts-streams/blob/main/test/two_records.gff3?raw=true";
+// https://github.com/GMOD/jbrowse-components/raw/cli_trix_indexer/test_data/volvox/volvox.sort.gff3.gz
+
+const remoteCottonFile = 'https://cottonfgd.org/about/download/annotation/gene.Garb.CRI.gff3.gz';
 
 
-if(isURL(gff3FileName7)){
+if(isURL(remoteCottonFile)){
     console.log("this is a url");
-    ParseGff3URL(gff3FileName7);
+    ParseGff3URL(remoteCottonFile);
 }else{
-    const gff3In = createReadStream(gff3FileName7);
+    const gff3In = createReadStream(remoteCottonFile);
     ParseGff3(gff3In);
 }
 
@@ -40,4 +44,4 @@ if(isURL(gff3FileName7)){
 const ixFileName: string = "out.ix";
 const ixxFileName: string = "out.ixx";
 
-// testSearch("au9.g36", ixFileName, ixxFileName);
+// testSearch("au9.g36", ixFileName, ixxFileName);'
