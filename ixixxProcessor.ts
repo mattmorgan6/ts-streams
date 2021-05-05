@@ -10,6 +10,7 @@ export function runIxIxx(readStream: ReadStream){
     //     console.log(err.stack);
     // });
     
+    console.log("Running ixIxx to index the files.");
     const ixProcess = spawn('cat | ./ixIxx /dev/stdin', [ixFileName, ixxFileName], { shell: true });
 
     // Pass the readStream as stdin into ixProcess.
@@ -18,6 +19,7 @@ export function runIxIxx(readStream: ReadStream){
     // End the ixProcess stdin when the stream is done.
     readStream.on('end', () => {
         ixProcess.stdin.end();
+        console.log(`Done! Check ${ixFileName} and ${ixxFileName} files for output.`);
     });
 
     ixProcess.stdout.on('data', (data) => {
@@ -31,6 +33,4 @@ export function runIxIxx(readStream: ReadStream){
     ixProcess.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
     });
-
-    console.log(`Done! Check ${ixFileName} and ${ixxFileName} files for output.`);
 }
