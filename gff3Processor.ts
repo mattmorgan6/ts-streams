@@ -4,6 +4,7 @@ import transformStream = require('stream');
 import { Transform } from 'stream';
 import {runIxIxx} from './ixixxProcessor';
 import { Gunzip } from 'node:zlib';
+const zlib = require('zlib');
 
 type RecordData = {
     attributes: any;
@@ -65,3 +66,9 @@ export function isURL(FileName: string){
     return url.protocol === "http:" || url.protocol === "https:";
 }
 
+export function isGzip(file: ReadStream){
+    const unzip = zlib.createGunzip();
+
+    let gZipRead: ReadStream = file.pipe(unzip);
+    ParseGff3(gZipRead);
+}
