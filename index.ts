@@ -5,14 +5,6 @@ import { testSearch } from './searchIndex';
 import { createReadStream } from 'fs';
 import { ParseGff3URL} from './gff3URLProcessor';
 
-/*
-// For now just read in the input file to readStream for testing.
-const inputFilePath: string = "./test/test1/input.txt";
-const readStream = fs.createReadStream(inputFilePath);
-// Test the passing in a stream to ixIxx
-runIxIxx(readStream)
-*/
-
 const gff3FileName: string = "./test/two_records.gff3"; //pass
 const gff3FileName2: string = "./test/au9_scaffold_subset.gff3"; //pass
 const gff3FileName3: string = "./test/quantitative.gff3"; // fail
@@ -30,13 +22,24 @@ const cotton: string = "./test/gene.Garb.CRI.gff3.gz"; // fail out.ix is empty
 const remoteCottonFile = 'https://cottonfgd.org/about/download/annotation/gene.Garb.CRI.gff3.gz'; // pass
 const testFile: string = 'http://128.206.12.216/drupal/sites/bovinegenome.org/files/data/umd3.1/Ensembl_Mus_musculus.NCBIM37.67.pep.all_vs_UMD3.1.gff3.gz'; //pass
 
-const file: string = "http://blah.gz";
-let isGzipped: boolean;
+const file: string = gff3FileName11;
+
 
 if(isURL(file)){
+
+    let isGzipped: boolean = true;
     console.log("this is a url");
-    ParseGff3URL(file, isGzipped);
+
+    if(file.includes('.gz')){
+        ParseGff3URL(file, isGzipped);
+    }else{
+        console.log("remote file not gz");
+        isGzipped = false;
+        ParseGff3URL(file, isGzipped);
+    }
+
 }else{
+
     const gff3In = createReadStream(file);
 
     if(file.includes('.gz')){
@@ -46,6 +49,7 @@ if(isURL(file)){
         console.log("not gzipped");
         ParseGff3(gff3In);
     }
+
 }
 
 
