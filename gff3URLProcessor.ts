@@ -2,7 +2,8 @@ import { ReadStream, createReadStream, createWriteStream } from 'fs';
 import {ParseGff3, isURL} from './gff3Processor';
 const zlib = require('zlib');
 import { http, https } from 'follow-redirects'
-//const http = require('http');
+const htp = require('http');
+const htps = require('https');
 
 export function ParseGff3URL(urlIn: string, isGZ: boolean){
 
@@ -46,41 +47,33 @@ export function ParseGff3URL(urlIn: string, isGZ: boolean){
     }
 }
 
-function ParseGff3URLNoGZ(urlIn: string){
+function ParseGff3URLNoGZ(urlIn: string){ 
     const newUrl = new URL(urlIn);
 
     if(newUrl.protocol === 'https:'){
-        var str: string = "";
-        https.get(urlIn, response => {
-            response.on('data', chunk => {
-                //str += chunk;
-                //ParseGff3(chunk);
-                response.on('finish', function() {
-                    let urlReadStream = createReadStream(str);
-                    ParseGff3(chunk);
-                });
-            });
-            
+
+       https.get(urlIn, res => {
+        htps.get(res.responseUrl, response => {
+            ParseGff3(response);
         }).on('error', (e: NodeJS.ErrnoException) => {
             if (e.code === 'ENOTFOUND')
                 console.error("Bad file url");
             else
-                console.error("Other error: ", e)
-
+                console.error("Other error: ", e);
         });
+       });
+        
     }else{
-       http.get(urlIn, response => {
-            let urlReadStream = createReadStream(newUrl);
-            ParseGff3(urlReadStream);
-            response.on('finish', function() {
-                console.log('done');
-            })
-        }).on('error', (e: NodeJS.ErrnoException) => {
-            if (e.code === 'ENOTFOUND')
-                console.error("Bad file url");
-            else
-                console.error("Other error: ", e)
-
-        });
+        http.get(urlIn, res => {
+            htp.get(res.responseUrl, response => {
+                ParseGff3(response);
+            }).on('error', (e: NodeJS.ErrnoException) => {
+                if (e.code === 'ENOTFOUND')
+                    console.error("Bad file url");
+                else
+                    console.error("Other error: ", e)
+    
+            });
+        })
     }
 }
