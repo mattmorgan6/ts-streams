@@ -4,6 +4,7 @@ import { Transform } from "stream";
 import { runIxIxx } from "./ixixxProcessor";
 import { Gunzip } from "zlib";
 
+// Record object definitions
 type RecordData = {
   attributes: any;
   start: Number;
@@ -12,6 +13,8 @@ type RecordData = {
   length: Number;
 };
 
+// function that takes in a gff3 readstream and parses through
+// it and retrieves the needed attributes and information
 export function ParseGff3(gff3In: ReadStream | Gunzip) {
   const gffTranform = new Transform({
     objectMode: true,
@@ -30,6 +33,9 @@ export function ParseGff3(gff3In: ReadStream | Gunzip) {
   runIxIxx(gff3Stream);
 }
 
+// Recursively goes through every record in the gff3 file and gets
+// the desires attributes in the form of a JSON object. It is then pushed
+// and returned to the ixIxx file to run.
 function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
   const recordObj = {
     ID: record.attributes.ID,
@@ -55,6 +61,8 @@ function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
   }
 }
 
+// Checks if the passed in string is a valid 
+// URL. Will return a boolean
 export function isURL(FileName: string) {
   let url;
 
@@ -67,6 +75,8 @@ export function isURL(FileName: string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
+// Checks if the input readstrea is gzipped
+// or not. Will return a boolean.
 export function isGzip(file: ReadStream) {
   const unzip = zlib.createGunzip();
 
