@@ -1,6 +1,5 @@
 import gff from '@gmod/gff';
 import { ReadStream } from 'fs';
-import transformStream = require('stream');
 import { Transform } from 'stream';
 import {runIxIxx} from './ixixxProcessor';
 import { Gunzip } from 'zlib';

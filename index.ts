@@ -3,7 +3,7 @@ import {ParseGff3, isURL, isGzip} from './gff3Processor';
 import fs = require('fs');
 import { testSearch } from './searchIndex';
 import { createReadStream } from 'fs';
-import { ParseGff3URL} from './gff3URLProcessor';
+import { ParseGff3Url} from './gff3URLProcessor';
 
 //local gtf
 const gtf1: string = "./test/gtf/volvox.gtf";
@@ -27,7 +27,7 @@ const gff3FileName9: string = "https://github.com/GMOD/jbrowse-components/blob/c
 const remoteCottonFile = 'https://cottonfgd.org/about/download/annotation/gene.Garb.CRI.gff3.gz'; // pass
 const testFile: string = 'http://128.206.12.216/drupal/sites/bovinegenome.org/files/data/umd3.1/Ensembl_Mus_musculus.NCBIM37.67.pep.all_vs_UMD3.1.gff3.gz'; //pass
 
-const file: string = gff3FileName11;
+const file: string = gff3FileName7;
 
 
 if(isURL(file)){
@@ -36,11 +36,11 @@ if(isURL(file)){
     console.log("this is a url");
 
     if(file.includes('.gz')){
-        ParseGff3URL(file, isGzipped);
+        ParseGff3Url(file, isGzipped);
     }else{
         console.log("remote file not gz");
         isGzipped = false;
-        ParseGff3URL(file, isGzipped);
+        ParseGff3Url(file, isGzipped);
     }
 
 }else{
