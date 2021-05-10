@@ -3,8 +3,7 @@ import { ReadStream } from 'fs';
 import transformStream = require('stream');
 import { Transform } from 'stream';
 import {runIxIxx} from './ixixxProcessor';
-import { Gunzip } from 'node:zlib';
-const zlib = require('zlib');
+import { Gunzip } from 'zlib';
 
 type RecordData = {
     attributes: any;
@@ -14,7 +13,7 @@ type RecordData = {
     length:Number;
 };
 
-export function ParseGff3(gff3In: any){
+export function ParseGff3(gff3In: ReadStream | Gunzip){
     const gffTranform = new Transform({
         objectMode: true,
         transform: (chunk, _encoding, done) => {

@@ -1,11 +1,11 @@
 import { ReadStream, createReadStream, createWriteStream } from 'fs';
 import {ParseGff3, isURL} from './gff3Processor';
-const zlib = require('zlib');
+import { createGunzip } from 'zlib';
 import { http as httpFR, https as httpsFR } from 'follow-redirects'
 
 export function ParseGff3URL(urlIn: string, isGZ: boolean){
 
-    const unzip = zlib.createGunzip();
+    const unzip = createGunzip();
     const newUrl = new URL(urlIn);
 
         if(!isGZ){
