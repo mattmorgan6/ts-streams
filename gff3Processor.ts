@@ -14,7 +14,7 @@ type RecordData = {
     length:Number;
 };
 
-export function ParseGff3(gff3In: ReadStream | Gunzip){
+export function ParseGff3(gff3In: any){
     const gffTranform = new Transform({
         objectMode: true,
         transform: (chunk, _encoding, done) => {

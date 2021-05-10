@@ -27,7 +27,7 @@ const gff3FileName9: string = "https://github.com/GMOD/jbrowse-components/blob/c
 const remoteCottonFile = 'https://cottonfgd.org/about/download/annotation/gene.Garb.CRI.gff3.gz'; // pass
 const testFile: string = 'http://128.206.12.216/drupal/sites/bovinegenome.org/files/data/umd3.1/Ensembl_Mus_musculus.NCBIM37.67.pep.all_vs_UMD3.1.gff3.gz'; //pass
 
-const file: string = gff3FileName4;
+const file: string = gff3FileName11;
 
 
 if(isURL(file)){
@@ -54,7 +54,6 @@ if(isURL(file)){
         console.log("not gzipped");
         ParseGff3(gff3In);
     }
-
 }
 
 
