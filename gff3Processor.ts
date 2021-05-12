@@ -13,8 +13,8 @@ type RecordData = {
   length: Number;
 };
 
-// function that takes in a gff3 readstream and parses through
-// it and retrieves the needed attributes and information
+// Function that takes in a gff3 readstream and parses through
+// it and retrieves the needed attributes and information.
 export function ParseGff3(gff3In: ReadStream | Gunzip) {
   const gffTranform = new Transform({
     objectMode: true,
