@@ -2,7 +2,7 @@ import gff from "@gmod/gff";
 import { ReadStream } from "fs";
 import { Transform } from "stream";
 import { runIxIxx } from "./ixixxProcessor";
-import { Gunzip } from "zlib";
+import { Gunzip, createGunzip } from "zlib";
 
 // Record object definitions
 type RecordData = {
@@ -37,22 +37,52 @@ export function ParseGff3(gff3In: ReadStream | Gunzip) {
 // the desires attributes in the form of a JSON object. It is then pushed
 // and returned to the ixIxx file to run.
 function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
-  const recordObj = {
-    ID: record.attributes.ID,
-    Name: record.attributes.Name,
-    seq_id: record.seq_id,
-    start: record.start,
-    end: record.end,
-  };
+  
 
-  if (record.attributes.Name && record.attributes.ID) {
+  const testObjs =  [
+                        {
+                            "attributes": ["Name", "ID", "seq_id", "start", "end"],
+                            "indexingConfiguration": {
+                                "gffLocation": {
+                                    "uri": "test/data/volvox.sort.gff3.gz",
+                                },
+                                "gzipped": true,
+                                "indexingAdapter": "GFF3",
+                            },
+                            "trackId": "gff3tabix_genes",
+                        },
+                    ];
+            
+    // create a for loop going through testObj attributes array
+    // add each attribute to recordObj. 
+
+    const attributesArr: Array<string> = testObjs[0].attributes;
+
+    let recordObj = {};
+
+    for(let attr of attributesArr){
+        if(record[attr])
+            recordObj[attr] = record[attr]
+    }
+
     let buff = Buffer.from(JSON.stringify(recordObj), "utf-8");
 
-    let str: string = `${buff.toString("base64")} ${record.attributes.ID} ${
-      record.attributes.Name
-    } ${record.attributes.ID}\n`;
+    // for loop to get every attribute and add it to a string
+    // at the end of the for loop append the attribute string to the
+    // base64 buffer then push
+    let attrString: string = "";
+    let str: string = `${buff.toString("base64")}`;
+
+    for(let attr of attributesArr){ // there is a more efficient way of doing this
+        if(record[attr]){
+            attrString += ' '
+            attrString += recordObj[attr]
+        }
+    }
+    str += attrString;
+    
+    
     gff3Stream.push(str);
-  }
 
   for (let j = 0; record.length; j++) {
     for (let i = 0; i < record[j].child_features.length; i++) {
@@ -78,7 +108,7 @@ export function isURL(FileName: string) {
 // Checks if the input readstrea is gzipped
 // or not. Will return a boolean.
 export function isGzip(file: ReadStream) {
-  const unzip = zlib.createGunzip();
+  const unzip = createGunzip();
 
   let gZipRead: ReadStream = file.pipe(unzip);
   ParseGff3(gZipRead);
