@@ -64,9 +64,16 @@ function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
 
     for(let attr of attributesArr){
         if(record[attr]){
-            recordObj[attr] = record[attr]
-            attrString += ' '
-            attrString += recordObj[attr]
+          // Check to see if the attr exists for the record
+          recordObj[attr] = record[attr]
+          attrString += ' '
+          attrString += recordObj[attr]
+        }
+        else if (record.attributes[attr]) {
+          // Name and ID are in the attributes object, so check there too
+          recordObj[attr] = record.attributes[attr]
+          attrString += ' '
+          attrString += recordObj[attr]
         }
     }
 
