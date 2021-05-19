@@ -59,28 +59,26 @@ function recurseFeatures(record: RecordData, gff3Stream: ReadStream) {
     const attributesArr: Array<string> = testObjs[0].attributes;
 
     let recordObj = {};
+    let attrString: string = "";
+
 
     for(let attr of attributesArr){
-        if(record[attr])
-            recordObj[attr] = record[attr]
-    }
-
-    let buff = Buffer.from(JSON.stringify(recordObj), "utf-8");
-
-    // for loop to get every attribute and add it to a string
-    // at the end of the for loop append the attribute string to the
-    // base64 buffer then push
-    let attrString: string = "";
-    let str: string = `${buff.toString("base64")}`;
-
-    for(let attr of attributesArr){ // there is a more efficient way of doing this
         if(record[attr]){
+            recordObj[attr] = record[attr]
             attrString += ' '
             attrString += recordObj[attr]
         }
     }
+
+    let buff = Buffer.from(JSON.stringify(recordObj), "utf-8");
+    let str: string = `${buff.toString("base64")}`;
     str += attrString;
-    
+
+
+    // for loop to get every attribute and add it to a string
+    // at the end of the for loop append the attribute string to the
+    // base64 buffer then push
+   
     
     gff3Stream.push(str);
 
