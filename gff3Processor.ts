@@ -15,7 +15,7 @@ type RecordData = {
 
 // Function that takes in a gff3 readstream and parses through
 // it and retrieves the needed attributes and information.
-export function ParseGff3(gff3In: ReadStream | Gunzip) {
+export function ParseGff3(gff3In: ReadStream | Gunzip, gff3In2: ReadStream | Gunzip) {
   const gffTranform = new Transform({
     objectMode: true,
     transform: (chunk, _encoding, done) => {
@@ -26,11 +26,18 @@ export function ParseGff3(gff3In: ReadStream | Gunzip) {
     },
   });
 
+
+  // HERE!!!
+
   const gff3Stream: ReadStream = gff3In
     .pipe(gff.parseStream({ parseSequences: false }))
     .pipe(gffTranform);
 
-  runIxIxx(gff3Stream);
+  const gff3Stream2: ReadStream = gff3In2
+    .pipe(gff.parseStream({ parseSequences: false }))
+    .pipe(gffTranform);
+
+  runIxIxx(gff3Stream, gff3Stream2);
 }
 
 // Recursively goes through every record in the gff3 file and gets

@@ -2,7 +2,7 @@ import { spawn }  from 'child_process';
 import { ReadStream}  from 'fs';
 import { read } from 'node:fs';
 
-export function runIxIxx(readStream: ReadStream){
+export function runIxIxx(readStream: ReadStream, readStream2: ReadStream){
     const ixFileName: string = "out.ix";
     const ixxFileName: string = "out.ixx";
 
@@ -15,6 +15,9 @@ export function runIxIxx(readStream: ReadStream){
 
     // Pass the readStream as stdin into ixProcess.
     readStream.pipe(ixProcess.stdin);
+    readStream2.pipe(ixProcess.stdin);
+
+    // HERE !!!
 
     // End the ixProcess stdin when the stream is done.
     readStream.on('end', () => {

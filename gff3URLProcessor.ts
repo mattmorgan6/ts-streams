@@ -18,7 +18,7 @@ function ParseGff3UrlWithGz(urlIn: string) {
   if (newUrl.protocol === "https:") {
     httpsFR
       .get(urlIn, (response) => {
-        ParseGff3(response.pipe(unzip));
+        ParseGff3(response.pipe(unzip), null);
         response.on("finish", function () {
           console.log("done");
         });
@@ -30,7 +30,7 @@ function ParseGff3UrlWithGz(urlIn: string) {
   } else {
     httpFR
       .get(urlIn, (response) => {
-        ParseGff3(response.pipe(unzip));
+        ParseGff3(response.pipe(unzip), null);
         response.on("finish", function () {
           console.log("done");
         });
@@ -48,7 +48,7 @@ function ParseGff3UrlNoGz(urlIn: string) {
   if (newUrl.protocol === "https:") {
     httpsFR
       .get(urlIn, (res) => {
-        ParseGff3(res);
+        ParseGff3(res, null);
       })
       .on("error", (e: NodeJS.ErrnoException) => {
         if (e.code === "ENOTFOUND") console.error("Bad file url");
@@ -57,7 +57,7 @@ function ParseGff3UrlNoGz(urlIn: string) {
   } else {
     httpFR
       .get(urlIn, (res) => {
-        ParseGff3(res);
+        ParseGff3(res, null);
       })
       .on("error", (e: NodeJS.ErrnoException) => {
         if (e.code === "ENOTFOUND") console.error("Bad file url");
