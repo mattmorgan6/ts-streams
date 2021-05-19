@@ -9,6 +9,7 @@ const gtf1: string = "./test/gtf/volvox.gtf";
 
 //local GFF3
 const gff3FileName: string = "./test/two_records.gff3"; //pass
+const gff3FileName1: string = "./test/three_records.gff3"; //pass
 const gff3FileName2: string = "./test/au9_scaffold_subset.gff3"; //pass
 const gff3FileName3: string = "./test/quantitative.gff3"; // fail  I think its just the file
 const gff3FileName4: string = "./test/NT_077402.2.gene.gff3"; //fail
@@ -21,8 +22,8 @@ const cotton: string = "./test/gene.Garb.CRI.gff3.gz"; // pass
 
 //remote files
 const gff3FileName7: string = "https://raw.githubusercontent.com/GMOD/jbrowse/master/tests/data/au9_scaffold_subset_sync.gff3"; //pass
-const gff3FileName11: string = "https://github.com/GMOD/jbrowse-components/raw/cli_trix_indexer/test_data/volvox/volvox.sort.gff3.gz"; //pass
-const gff3FileName9: string = "https://github.com/GMOD/jbrowse-components/blob/cli_trix_indexer/test_data/volvox/volvox.sort.gff3.gz?raw=true"; //pass
+const gff3FileName11: string = "https://github.com/GMOD/jbrowse-components/raw/cli_trix_indexer_stub/test_data/volvox/volvox.sort.gff3.gz"; //pass
+const gff3FileName9: string = "https://github.com/GMOD/jbrowse-components/blob/cli_trix_indexer_stub/test_data/volvox/volvox.sort.gff3.gz?raw=true"; //pass
 const remoteCottonFile = 'https://cottonfgd.org/about/download/annotation/gene.Garb.CRI.gff3.gz'; // pass
 const testFile: string = 'http://128.206.12.216/drupal/sites/bovinegenome.org/files/data/umd3.1/Ensembl_Mus_musculus.NCBIM37.67.pep.all_vs_UMD3.1.gff3.gz'; //pass
 
