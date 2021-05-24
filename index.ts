@@ -146,7 +146,7 @@ import { type } from 'os'
             "attributes": ["Name", "ID", "seq_id", "start", "end"],
             "indexingConfiguration": {
                 "gffLocation": {
-                    "uri": "test/data/volvox.sort.gff3.gz",
+                    "uri": "./test/volvox.sort.gff3.gz",
                 },
                 "gzipped": true,
                 "indexingAdapter": "GFF3",
@@ -193,11 +193,12 @@ import { type } from 'os'
 
     const uri = uris[0];
     if (isURL(uri))
-      parseGff3Url(uri, isGZ, isTest, attributesArr)
+      console.log("this is a url")
+      //parseGff3Url(uri, isGZ, isTest, attributesArr)
     else
       parseLocalGff3(uri, isGZ, isTest, attributesArr)
 
-
+    //runIxIxx(,isTest)
 
   }
 
@@ -214,7 +215,7 @@ import { type } from 'os'
     else
       return parseLocalGzip(gff3ReadStream, isTest, attributesArr)
   }
-
+/*
   // Method for handing off the parsing of a gff3 file URL.
   // Calls the proper parser depending on if it is gzipped or not.
   // Returns a promise that the file downloads and ixIxx finishes indexing it.
@@ -301,7 +302,7 @@ import { type } from 'os'
     }) // End of promise
     return promise
   }
-
+*/
 
 
   // Checks if the passed in string is a valid URL. 
