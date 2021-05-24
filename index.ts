@@ -107,7 +107,7 @@ const ixxFileName: string = "out.ixx";
 // testSearch("au9.g36", ixFileName, ixxFileName);'*/
 
 import { ReadStream, createReadStream, promises } from "fs";
-import { Transform } from "stream";
+import { Transform, PassThrough } from "stream";
 import gff from "@gmod/gff";
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { http as httpFR, https as httpsFR } from "follow-redirects";
@@ -141,7 +141,7 @@ const testObjs = [
     attributes: ["Name", "ID", "seq_id", "start", "end"],
     indexingConfiguration: {
       gffLocation: {
-        uri: "./test/volvox.sort.gff3.gz",
+        uri: "./test/au9_scaffold_subset_sync.gff3"
       },
       gzipped: true,
       indexingAdapter: "GFF3",
@@ -152,8 +152,9 @@ const testObjs = [
 
 const indexAttributes: Array<string> = testObjs[0].attributes;
 
-const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
-indexDriver(uri, true, false, indexAttributes);
+// const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
+const uri = "./test/three_records.gff3";
+indexDriver(uri, false, false, indexAttributes);
 
 // Diagram of function call flow:
 //
@@ -185,6 +186,8 @@ async function indexDriver(
   // //parseGff3Url(uri, isGZ, isTest, attributesArr)
   // else parseLocalGff3(uri, isGZ, isTest, attributesArr);
 
+  let bob: PassThrough = new PassThrough();
+
   const gffTranform = new Transform({
     objectMode: true,
     transform: (chunk, _encoding, done) => {
@@ -199,12 +202,12 @@ async function indexDriver(
   gff3Stream = gff3Stream.pipe(gffTranform);
 
   // Return promise for ixIxx to finish
-  
+  gff3Stream.pipe(bob)
   
   //runIxIxx(,isTest)
   // return tryit(gff3Stream, isTest, attributesArr)
   
-  return runIxIxx(gff3Stream, isTest);
+  return runIxIxx(bob, isTest);
 }
 
 
@@ -219,8 +222,10 @@ function parseLocalGff3(
   attributesArr: Array<string>
 ) {
   let gff3ReadStream: ReadStream = createReadStream(gff3LocalIn);
-  if (!isGZ) return indexGff3(gff3ReadStream, isTest, attributesArr);
-  else return parseLocalGzip(gff3ReadStream, isTest, attributesArr);
+  if (!isGZ) 
+    return indexGff3(gff3ReadStream, isTest, attributesArr);
+  else 
+    return parseLocalGzip(gff3ReadStream, isTest, attributesArr);
 }
 
 
@@ -429,7 +434,7 @@ async function recurseFeatures(
 // Given a readStream of data, indexes the stream into .ix and .ixx files using ixIxx.
 // The ixIxx executable is required on the system path for users, however tests use a local copy.
 // Returns a promise around ixIxx completing (or erroring).
-function runIxIxx(readStream: ReadStream, isTest: boolean) {
+function runIxIxx(readStream: ReadStream | PassThrough, isTest: boolean) {
   const ixFileName: string = "out.ix";
   const ixxFileName: string = "out.ixx";
 
