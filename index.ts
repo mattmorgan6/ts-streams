@@ -181,18 +181,38 @@ async function indexDriver(
   if (typeof uris === "string") uris = [uris]; // turn uris string into an array of one string
 
   const uri = uris[0];
-  if (isURL(uri)) console.log("this is a url");
-  //parseGff3Url(uri, isGZ, isTest, attributesArr)
-  else parseLocalGff3(uri, isGZ, isTest, attributesArr);
+  // if (isURL(uri)) console.log("this is a url");
+  // //parseGff3Url(uri, isGZ, isTest, attributesArr)
+  // else parseLocalGff3(uri, isGZ, isTest, attributesArr);
 
+  const gffTranform = new Transform({
+    objectMode: true,
+    transform: (chunk, _encoding, done) => {
+      chunk.forEach((record: RecordData) => {
+        recurseFeatures(record, gff3Stream, attributesArr);
+        done();
+      });
+    },
+  });
+
+  let gff3Stream = parseLocalGff3(uri, isGZ, isTest, attributesArr)
+  gff3Stream = gff3Stream.pipe(gffTranform);
+
+  // Return promise for ixIxx to finish
+  
+  
   //runIxIxx(,isTest)
+  // return tryit(gff3Stream, isTest, attributesArr)
+  
+  return runIxIxx(gff3Stream, isTest);
 }
+
 
 // Take in the local file path, check if the
 // it is gzipped or not, then passes it into the correct
 // file handler.
 // Returns a promise that ixIxx finishes indexing.
-async function parseLocalGff3(
+function parseLocalGff3(
   gff3LocalIn: string,
   isGZ: boolean,
   isTest: boolean,
@@ -351,7 +371,7 @@ function indexGff3(
     gff.parseStream({ parseSequences: false })
   );
 
-  return tryit(gff3Stream, isTest, attributesArr);
+  return gff3Stream;
 }
 
 // Recursively goes through every record in the gff3 file and gets
