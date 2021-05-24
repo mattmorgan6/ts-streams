@@ -153,7 +153,7 @@ const testObjs = [
 const indexAttributes: Array<string> = testObjs[0].attributes;
 
 // const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
-const uri = "./test/three_records.gff3";
+const uri = ["./test/two_records.gff3", "./test/three_records.gff3"]
 indexDriver(uri, false, false, indexAttributes);
 
 // Diagram of function call flow:
@@ -181,29 +181,32 @@ async function indexDriver(
   // For loop for each uri in the uri array
   if (typeof uris === "string") uris = [uris]; // turn uris string into an array of one string
 
-  const uri = uris[0];
+  // const uri = uris[0];
   // if (isURL(uri)) console.log("this is a url");
   // //parseGff3Url(uri, isGZ, isTest, attributesArr)
   // else parseLocalGff3(uri, isGZ, isTest, attributesArr);
 
   let bob: PassThrough = new PassThrough();
 
-  const gffTranform = new Transform({
-    objectMode: true,
-    transform: (chunk, _encoding, done) => {
-      chunk.forEach((record: RecordData) => {
-        recurseFeatures(record, gff3Stream, attributesArr);
-        done();
-      });
-    },
-  });
-
-  let gff3Stream = parseLocalGff3(uri, isGZ, isTest, attributesArr)
-  gff3Stream = gff3Stream.pipe(gffTranform);
-
-  // Return promise for ixIxx to finish
-  gff3Stream.pipe(bob)
   
+  for (const uri of uris) {
+    const gffTranform = new Transform({
+      objectMode: true,
+      transform: (chunk, _encoding, done) => {
+        chunk.forEach((record: RecordData) => {
+          recurseFeatures(record, gff3Stream, attributesArr);
+          done();
+        });
+      },
+    });
+
+    let gff3Stream = parseLocalGff3(uri, isGZ, isTest, attributesArr)
+    gff3Stream = gff3Stream.pipe(gffTranform);
+
+    // Return promise for ixIxx to finish
+    gff3Stream.pipe(bob)
+  }
+
   //runIxIxx(,isTest)
   // return tryit(gff3Stream, isTest, attributesArr)
   
