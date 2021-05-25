@@ -106,7 +106,7 @@ const ixxFileName: string = "out.ixx";
 
 // testSearch("au9.g36", ixFileName, ixxFileName);'*/
 
-import { ReadStream, createReadStream, promises } from "fs";
+import { ReadStream, createReadStream, promises, createWriteStream } from "fs";
 import { Transform, PassThrough } from "stream";
 import gff from "@gmod/gff";
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
@@ -114,6 +114,8 @@ import { http as httpFR, https as httpsFR } from "follow-redirects";
 import { createGunzip } from "zlib";
 import { resolve } from "path";
 import { type } from "os";
+// let CombinedStream = require('combined-stream');
+// let MultiStream = require('multistream')
 
 // For testing:
 // const gff3FileLocation: string = "./test/data/au9_scaffold_subset_sync.gff3"
@@ -153,7 +155,7 @@ const testObjs = [
 const indexAttributes: Array<string> = testObjs[0].attributes;
 
 // const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
-const uri = ["./test/two_records.gff3", "./test/three_records.gff3"]
+const uri = ["./test/three_records.gff3", "./test/two_records.gff3"]
 indexDriver(uri, false, false, indexAttributes);
 
 // Diagram of function call flow:
@@ -186,9 +188,12 @@ async function indexDriver(
   // //parseGff3Url(uri, isGZ, isTest, attributesArr)
   // else parseLocalGff3(uri, isGZ, isTest, attributesArr);
 
+  
+
   let bob: PassThrough = new PassThrough();
 
-  
+  let streams = [];
+
   for (const uri of uris) {
     const gffTranform = new Transform({
       objectMode: true,
@@ -204,13 +209,34 @@ async function indexDriver(
     gff3Stream = gff3Stream.pipe(gffTranform);
 
     // Return promise for ixIxx to finish
-    gff3Stream.pipe(bob)
+    streams.push(gff3Stream);
   }
+
+  // let temp = streams[0]
+  // streams[0] = streams[1]
+  // streams[1] = temp
+
+  const merge = (streams) => {
+    let pass = new PassThrough()
+    let waiting = streams.length
+    for (let stream of streams) {
+        pass = stream.pipe(pass, {end: false})
+        pass.push("\n")
+        stream.once('end', () => --waiting === 0 && pass.end())
+    }
+    return pass
+  }
+
+  
+  let s = merge(streams);
 
   //runIxIxx(,isTest)
   // return tryit(gff3Stream, isTest, attributesArr)
   
-  return runIxIxx(bob, isTest);
+  // let w = createWriteStream("dumbo.txt");
+  // s.pipe(w)
+
+  return runIxIxx(s, isTest);
 }
 
 
