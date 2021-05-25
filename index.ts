@@ -175,6 +175,9 @@ indexDriver(uri, false, indexAttributes);
 //
 //
 
+// This function takes a list of uris, as well as which attributes to index, 
+// and indexes them all into one aggregate index.
+// Returns a promise of the indexing child process completing.
 async function indexDriver(
   uris: string | Array<string>,
   isTest: boolean,
@@ -183,11 +186,14 @@ async function indexDriver(
   
   // For loop for each uri in the uri array
   if (typeof uris === "string") uris = [uris]; // turn uris string into an array of one string
-  let isGZ: boolean = false;
 
-  let pass = new PassThrough()
-  let waiting = uris.length
+  let aggregateStream = new PassThrough()
+  let numStreamsFlowing = uris.length
+
+  //  For each uri, we parse the file and add it to aggregateStream.
   for (const uri of uris) {
+
+    // Generate transform function parses a gff stream.
     const gffTranform = new Transform({
       objectMode: true,
       transform: (chunk, _encoding, done) => {
@@ -199,34 +205,34 @@ async function indexDriver(
     });
 
     let gff3Stream;
+    // If it is a URL, we want to await the http request.
     if (isURL(uri)) {
       gff3Stream = await parseGff3Url(uri, uri.includes('.gz'), isTest, attributesArr);
       gff3Stream = gff3Stream.pipe(gffTranform);
-      
-      pass = gff3Stream.pipe(pass, {end: false})
-      gff3Stream.once('end', () => {
-        if (--waiting === 0)
-          pass.end()
-        else
-          pass.push('\n');
-      })
-
-    } else {
+    } 
+    // If it is local, there is no need to await.
+    else {
       gff3Stream = parseLocalGff3(uri, uri.includes('.gz'), isTest, attributesArr);
       gff3Stream = gff3Stream.pipe(gffTranform);
-
-      pass = gff3Stream.pipe(pass, {end: false})
-      gff3Stream.once('end', () => {
-        if (--waiting === 0)
-          pass.end()
-        else
-          pass.push('\n');
-      })
     }
-    
+
+    // Add gff3Stream to aggregateStream, and DO NOT send 'end' event on completion,
+    // otherwise this would stop all streams from piping to the aggregate before completion.
+    aggregateStream = gff3Stream.pipe(aggregateStream, {end: false})
+
+    // If a stream ends we have two options:
+    //  1) it is the last stream, so end the aggregate stream.
+    //  2) it is not the last stream, so add a '\n' to separate streams for the indexer.
+    gff3Stream.once('end', () => {
+      if (--numStreamsFlowing === 0)
+        aggregateStream.end()
+      else
+        aggregateStream.push('\n');
+    })
+
   }
 
-  return runIxIxx(pass, isTest);
+  return runIxIxx(aggregateStream, isTest);
 }
 
 
@@ -242,7 +248,7 @@ function parseLocalGff3(
 ) {
   let gff3ReadStream: ReadStream = createReadStream(gff3LocalIn);
   if (!isGZ) 
-    return indexGff3(gff3ReadStream, isTest, attributesArr);
+    return indexGff3(gff3ReadStream);
   else 
     return parseLocalGzip(gff3ReadStream, isTest, attributesArr);
 }
@@ -270,7 +276,7 @@ function parseGff3UrlNoGz(urlIn: string, isTest: boolean, attributesArr: Array<s
     if (newUrl.protocol === "https:") {
       httpsFR
         .get(urlIn, (res) => {
-          const parseStream = indexGff3(res, isTest, attributesArr)
+          const parseStream = indexGff3(res)
           resolve(parseStream)
         })
         .on("error", (e: NodeJS.ErrnoException) => {
@@ -282,7 +288,7 @@ function parseGff3UrlNoGz(urlIn: string, isTest: boolean, attributesArr: Array<s
     } else {
       httpFR
         .get(urlIn, (res) => {
-          const parseStream = indexGff3(res, isTest, attributesArr)
+          const parseStream = indexGff3(res)
           resolve(parseStream)
         })
         .on("error", (e: NodeJS.ErrnoException) => {
@@ -311,7 +317,7 @@ function parseGff3UrlWithGz(urlIn: string, isTest: boolean, attributesArr: Array
     if (newUrl.protocol === "https:") {
       httpsFR
       .get(urlIn, (response) => {
-        const parseStream = indexGff3(response.pipe(unzip), isTest, attributesArr)
+        const parseStream = indexGff3(response.pipe(unzip))
         resolve(parseStream)
       })
       .on("error", (e: NodeJS.ErrnoException) => {
@@ -322,7 +328,7 @@ function parseGff3UrlWithGz(urlIn: string, isTest: boolean, attributesArr: Array
     } else {
         httpFR
           .get(urlIn, (response) => {
-            const parseStream = indexGff3(response.pipe(unzip), isTest, attributesArr)
+            const parseStream = indexGff3(response.pipe(unzip))
             resolve(parseStream)
           })
           .on("error", (e: NodeJS.ErrnoException) => {
@@ -359,38 +365,13 @@ function parseLocalGzip(
 ) {
   const unzip = createGunzip();
   let gZipRead: ReadStream = file.pipe(unzip);
-  return indexGff3(gZipRead, isTest, attributesArr);
-}
-
-function tryit(
-  gff3Stream: ReadStream,
-  isTest: boolean,
-  attributesArr: Array<string>
-) {
-  const gffTranform = new Transform({
-    objectMode: true,
-    transform: (chunk, _encoding, done) => {
-      chunk.forEach((record: RecordData) => {
-        recurseFeatures(record, gff3Stream, attributesArr);
-        done();
-      });
-    },
-  });
-
-  gff3Stream = gff3Stream.pipe(gffTranform);
-
-  // Return promise for ixIxx to finish
-  return runIxIxx(gff3Stream, isTest);
+  return indexGff3(gZipRead);
 }
 
 // Function that takes in a gff3 readstream and parses through
 // it and retrieves the needed attributes and information.
 // Returns a promise that ixIxx finishes (or errors).
-function indexGff3(
-  gff3In: ReadStream,
-  isTest: boolean,
-  attributesArr: Array<string>
-) {
+function indexGff3(gff3In: ReadStream) {
   let gff3Stream: ReadStream = gff3In.pipe(
     gff.parseStream({ parseSequences: false })
   );
