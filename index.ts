@@ -156,6 +156,7 @@ const indexAttributes: Array<string> = testObjs[0].attributes;
 
 // const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
 const uri = ["./test/three_records.gff3", "./test/volvox.sort.gff3.gz", "./test/two_records.gff3"]
+// const uri = ["./test/three_records.gff3"]
 indexDriver(uri, false, indexAttributes);
 
 // Diagram of function call flow:
@@ -195,11 +196,16 @@ async function indexDriver(
       },
     });
 
-    let gff3Stream = parseLocalGff3(uri, uri.includes('.gz'), isTest, attributesArr)
-    gff3Stream = gff3Stream.pipe(gffTranform);
-
-
-    streams.push(gff3Stream);
+    let gff3Stream;
+    if (isURL(uri)) {
+      gff3Stream = await parseGff3Url(uri, uri.includes('.gz'), isTest, attributesArr);
+      gff3Stream = gff3Stream.pipe(gffTranform);
+      streams.push(gff3Stream);
+    } else {
+      gff3Stream = parseLocalGff3(uri, uri.includes('.gz'), isTest, attributesArr);
+      gff3Stream = gff3Stream.pipe(gffTranform);
+      streams.push(gff3Stream);
+    }
   }
 
   const merge = (streams) => {
@@ -263,9 +269,9 @@ function parseGff3UrlNoGz(urlIn: string, isTest: boolean, attributesArr: Array<s
   let promise = new Promise((resolve, reject) => {
     if (newUrl.protocol === "https:") {
       httpsFR
-        .get(urlIn, async (res) => {
-          await indexGff3(res, isTest, attributesArr)
-          resolve("Success!")
+        .get(urlIn, (res) => {
+          const parseStream = indexGff3(res, isTest, attributesArr)
+          resolve(parseStream)
         })
         .on("error", (e: NodeJS.ErrnoException) => {
           reject("fail")
@@ -275,9 +281,9 @@ function parseGff3UrlNoGz(urlIn: string, isTest: boolean, attributesArr: Array<s
 
     } else {
       httpFR
-        .get(urlIn, async (res) => {
-          await indexGff3(res, isTest, attributesArr)
-          resolve("Success!")
+        .get(urlIn, (res) => {
+          const parseStream = indexGff3(res, isTest, attributesArr)
+          resolve(parseStream)
         })
         .on("error", (e: NodeJS.ErrnoException) => {
           reject("fail")
@@ -304,9 +310,9 @@ function parseGff3UrlWithGz(urlIn: string, isTest: boolean, attributesArr: Array
   let promise = new Promise((resolve, reject) => {
     if (newUrl.protocol === "https:") {
       httpsFR
-      .get(urlIn,  async (response) => {
-        await indexGff3(response.pipe(unzip), isTest, attributesArr)
-        resolve("Success!")
+      .get(urlIn, (response) => {
+        const parseStream = indexGff3(response.pipe(unzip), isTest, attributesArr)
+        resolve(parseStream)
       })
       .on("error", (e: NodeJS.ErrnoException) => {
         reject("fail")
@@ -315,9 +321,9 @@ function parseGff3UrlWithGz(urlIn: string, isTest: boolean, attributesArr: Array
       })
     } else {
         httpFR
-          .get(urlIn, async (response) => {
-            await indexGff3(response.pipe(unzip), isTest, attributesArr)
-            resolve("Success!")
+          .get(urlIn, (response) => {
+            const parseStream = indexGff3(response.pipe(unzip), isTest, attributesArr)
+            resolve(parseStream)
           })
           .on("error", (e: NodeJS.ErrnoException) => {
             reject("fail")
