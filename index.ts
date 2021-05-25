@@ -188,12 +188,8 @@ async function indexDriver(
   // //parseGff3Url(uri, isGZ, isTest, attributesArr)
   // else parseLocalGff3(uri, isGZ, isTest, attributesArr);
 
-  
-
-  let bob: PassThrough = new PassThrough();
 
   let streams = [];
-
   for (const uri of uris) {
     const gffTranform = new Transform({
       objectMode: true,
@@ -212,29 +208,23 @@ async function indexDriver(
     streams.push(gff3Stream);
   }
 
-  // let temp = streams[0]
-  // streams[0] = streams[1]
-  // streams[1] = temp
-
   const merge = (streams) => {
     let pass = new PassThrough()
     let waiting = streams.length
     for (let stream of streams) {
-        pass = stream.pipe(pass, {end: false})
-        pass.push("\n")
-        stream.once('end', () => --waiting === 0 && pass.end())
+      pass = stream.pipe(pass, {end: false})
+      stream.once('end', () => {
+        if (--waiting === 0)
+          pass.end()
+        else
+          pass.push('\n');
+      })
     }
     return pass
   }
 
   
   let s = merge(streams);
-
-  //runIxIxx(,isTest)
-  // return tryit(gff3Stream, isTest, attributesArr)
-  
-  // let w = createWriteStream("dumbo.txt");
-  // s.pipe(w)
 
   return runIxIxx(s, isTest);
 }
