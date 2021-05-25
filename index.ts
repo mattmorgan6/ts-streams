@@ -1,111 +1,3 @@
-/*import {ParseGff3, isURL, isGzip} from './gff3Processor';
-import fs = require('fs');
-import { testSearch } from './searchIndex';
-import { createReadStream } from 'fs';
-import { ParseGff3Url} from './gff3URLProcessor';
-
-//local gtf
-
-const gtf1: string = "./test/gtf/volvox.gtf";
-
-//local GFF3
-const gff3FileName: string = "./test/two_records.gff3"; //pass
-const gff3FileName1: string = "./test/three_records.gff3"; //pass
-const gff3FileName2: string = "./test/au9_scaffold_subset.gff3"; //pass
-const gff3FileName3: string = "./test/quantitative.gff3"; // fail  I think its just the file
-const gff3FileName4: string = "./test/NT_077402.2.gene.gff3"; //fail
-const gff3FileName5: string = "./test/SL2.40ch10_sample.gff3"; //pass
-const gff3FileName6: string = "./test/embedded_sequence.gff3"; //pass
-
-//local GZ
-const gff3FileName8: string = "./test/volvox.sort.gff3.gz"; //pass
-const cotton: string = "./test/gene.Garb.CRI.gff3.gz"; // pass
-
-//remote files
-const gff3FileName7: string = "https://raw.githubusercontent.com/GMOD/jbrowse/master/tests/data/au9_scaffold_subset_sync.gff3"; //pass
-const gff3FileName11: string = "https://github.com/GMOD/jbrowse-components/raw/cli_trix_indexer_stub/test_data/volvox/volvox.sort.gff3.gz"; //pass
-const gff3FileName9: string = "https://github.com/GMOD/jbrowse-components/blob/cli_trix_indexer_stub/test_data/volvox/volvox.sort.gff3.gz?raw=true"; //pass
-const remoteCottonFile = 'https://cottonfgd.org/about/download/annotation/gene.Garb.CRI.gff3.gz'; // pass
-const testFile: string = 'http://128.206.12.216/drupal/sites/bovinegenome.org/files/data/umd3.1/Ensembl_Mus_musculus.NCBIM37.67.pep.all_vs_UMD3.1.gff3.gz'; //pass
-
-
-const testObjs =  [
-    {
-        "attributes": ["Name", "ID", "seq_id", "start", "end"],
-        "indexingConfiguration": {
-            "gffLocation": {
-                "uri": "test/data/volvox.sort.gff3.gz",
-            },
-            "gzipped": true,
-            "indexingAdapter": "GFF3",
-        },
-        "trackId": "gff3tabix_genes",
-    },
-];
-
-const trackIds: Array<string> = ['gff3tabix_genes']
-//const indexConfig = await getIndexingConfigurations(trackIds, null)
-const indexAttributes: Array<string> = testObjs[0].attributes;
-
-const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
-indexDriver(uri, true, false, indexAttributes)
-
-indexDriver(uris: string | Array<string>, isGZ: boolean, isTest: boolean, attributesArr: Array<string>) {
-    
-    
-    // For loop for each uri in the uri array
-    if (typeof uris === 'string')
-      uris = [uris] // turn uris string into an array of one string
-
-    const uri = uris[0];
-    if (isURL(uri))
-      parseGff3Url(uri, isGZ, isTest, attributesArr)
-    else
-      parseLocalGff3(uri, isGZ, isTest, attributesArr)
-
-      //runixIxx 
-
-}
-
-/*const file: string = gff3FileName;
-
-
-if(isURL(file)){
-
-    let isGzipped: boolean = true;
-    console.log("this is a url");
-
-    if(file.includes('.gz')){
-        ParseGff3Url(file, isGzipped);
-    }else{
-        console.log("remote file not gz");
-        isGzipped = false;
-        ParseGff3Url(file, isGzipped);
-    }
-
-}else{
-
-    const gff3In = createReadStream(file);
-    const gff3In2 = createReadStream(gff3FileName1);
-
-    if(file.includes('.gz')){
-        console.log("This file is gzipped");
-        isGzip(gff3In);
-    }else{
-
-        console.log("not gzipped");
-
-        // HERE!!!
-        ParseGff3(gff3In, gff3In2);
-    }
-}
-
-
-const ixFileName: string = "out.ix";
-const ixxFileName: string = "out.ixx";
-
-// testSearch("au9.g36", ixFileName, ixxFileName);'*/
-
 import { ReadStream, createReadStream, promises, createWriteStream } from "fs";
 import { Transform, PassThrough } from "stream";
 import gff from "@gmod/gff";
@@ -160,19 +52,21 @@ const uri = ["./test/three_records.gff3", "./test/volvox.sort.gff3.gz", "./test/
 indexDriver(uri, false, indexAttributes);
 
 // Diagram of function call flow:
+
 //
-//                       -------------------------------------
-// parseLocalGff3() -- /                                      \
-//                     \                                       \
-//                      ---->  parseLocalGzip()  -------------- \
-//                                                               \
-//                                                                ------>  indexGff3()  ----->  runIxIxx()  --->  Indexed files created (.ix and .ixx)
-//                                                               /           ↓    ↑
-//                      ---->  parseGff3UrlNoGz() -----------  /        recurse_features()
-//  parseGff3Url() ---/                                      /
-//                    \                                    /
-//                      ---->  parseGff3UrlWithGz() ------
-//
+//                                      ------> parseGff3UrlWithGz()---\
+//                                    /                                  indexGff3()
+//                                  / --------> parseGff3UrlNoGz()-----/            \
+//                                /                                                  \      
+//               -----> parseURL()                                                    \
+//              |                                                                      \
+// indexDriver()                                                                        returns ----> indexDriver() -------> runIxIxx --------> output .ix and .ixx files
+//              \                                                                      /                   ⇆
+//               -----> parseLocalGff3()                                              /             recurseFeatures()
+//                                      \                                            /
+//                                       \ -----> parseLocalGZip() ---\            /
+//                                        \                            indexGff3()
+//                                         --------------------------/   
 //
 
 // This function takes a list of uris, as well as which attributes to index, 
