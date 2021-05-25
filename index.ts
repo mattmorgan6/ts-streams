@@ -180,11 +180,13 @@ async function indexDriver(
   isTest: boolean,
   attributesArr: Array<string>
 ) {
+  
   // For loop for each uri in the uri array
   if (typeof uris === "string") uris = [uris]; // turn uris string into an array of one string
   let isGZ: boolean = false;
 
-  let streams = [];
+  let pass = new PassThrough()
+  let waiting = uris.length
   for (const uri of uris) {
     const gffTranform = new Transform({
       objectMode: true,
@@ -200,33 +202,31 @@ async function indexDriver(
     if (isURL(uri)) {
       gff3Stream = await parseGff3Url(uri, uri.includes('.gz'), isTest, attributesArr);
       gff3Stream = gff3Stream.pipe(gffTranform);
-      streams.push(gff3Stream);
+      
+      pass = gff3Stream.pipe(pass, {end: false})
+      gff3Stream.once('end', () => {
+        if (--waiting === 0)
+          pass.end()
+        else
+          pass.push('\n');
+      })
+
     } else {
       gff3Stream = parseLocalGff3(uri, uri.includes('.gz'), isTest, attributesArr);
       gff3Stream = gff3Stream.pipe(gffTranform);
-      streams.push(gff3Stream);
-    }
-  }
 
-  const merge = (streams) => {
-    let pass = new PassThrough()
-    let waiting = streams.length
-    for (let stream of streams) {
-      pass = stream.pipe(pass, {end: false})
-      stream.once('end', () => {
+      pass = gff3Stream.pipe(pass, {end: false})
+      gff3Stream.once('end', () => {
         if (--waiting === 0)
           pass.end()
         else
           pass.push('\n');
       })
     }
-    return pass
+    
   }
 
-  
-  let s = merge(streams);
-
-  return runIxIxx(s, isTest);
+  return runIxIxx(pass, isTest);
 }
 
 
