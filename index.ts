@@ -49,7 +49,7 @@ const indexAttributes: Array<string> = testObjs[0].attributes;
 
 // const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
 const uri = ["tester.gff3"]
-// const uri = ["./test/three_records.gff3"]
+//const uri = ["./test/three_records.gff3"]
 indexDriver(uri, false, indexAttributes);
 
 // Diagram of function call flow:
@@ -127,8 +127,8 @@ async function indexDriver(
 
   }
 
-  // let x = createWriteStream("dodo.txt");
-  // aggregateStream.pipe(x);
+  //let x = createWriteStream("dodo.txt");
+  //aggregateStream.pipe(x);
 
   return runIxIxx(aggregateStream, isTest);
 }
@@ -296,19 +296,29 @@ async function recurseFeatures(
     // user wants to search by. If it contains it,
     // it adds it to the record object and attributes
     // string
-    for (let attr of attributesArr) {
 
-      if (record[attr]) {
-        // Check to see if the attr exists for the record
-        recordObj[attr] = record[attr];
-        attrString += " " + recordObj[attr];
-      } else if (record.attributes && record.attributes[attr]) {
-        // Name and ID are in the attributes object, so check there too
-        recordObj[attr] = record.attributes[attr];
-        attrString += " " + recordObj[attr];
+    if(Array.isArray(record)){
+      for (let attr of attributesArr) {
+        if(record[0].attr){
+          recordObj[attr] = record[0].attr;
+          attrString += " " + recordObj[attr];
+        }else if(record[0].attributes && record[0].attributes[attr]){
+          recordObj[attr] = record[0].attributes[attr];
+          attrString += " " + recordObj[attr];
+        }
+      }
+    }else{
+      for (let attr of attributesArr) {
+        if (record[attr]) { // Check to see if the attr exists for the record
+          recordObj[attr] = record[attr];
+          attrString += " " + recordObj[attr];
+        } else if (record.attributes && record.attributes[attr]) { // Name and ID are in the attributes object, so check there too
+          recordObj[attr] = record.attributes[attr];
+          attrString += " " + recordObj[attr];
+        }
       }
     }
-
+     
     // encodes the record object so that it can be used by ixIxx
     // appends the attributes that we are indexing by to the end
     // of the string before pushing to ixIxx
@@ -333,19 +343,11 @@ async function recurseFeatures(
         }
       }
     }else{
-      //console.log("this is an object")
-      for(let i = 0; i < record['child_features'].length;i++){
+      for(let i = 0; i < record['child_features'].length; i++){
         recurseFeatures(record.child_features[i], gff3Stream, attributesArr);
       }
     }
   }
-  
-  
-  // else{
-  //   for (let i = 0; i < record[j].child_features.length; i++) {
-  //     recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
-  //   }
-  // }
 }
 
 // Given a readStream of data, indexes the stream into .ix and .ixx files using ixIxx.
