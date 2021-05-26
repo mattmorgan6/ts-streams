@@ -6,6 +6,7 @@ import { http as httpFR, https as httpsFR } from "follow-redirects";
 import { createGunzip } from "zlib";
 import { resolve } from "path";
 import { type } from "os";
+import { WriteStream } from "node:fs";
 // let CombinedStream = require('combined-stream');
 // let MultiStream = require('multistream')
 
@@ -47,7 +48,7 @@ const testObjs = [
 const indexAttributes: Array<string> = testObjs[0].attributes;
 
 // const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
-const uri = ["./test/three_records.gff3", "./test/volvox.sort.gff3.gz", "./test/two_records.gff3"]
+const uri = ["tester.gff3"]
 // const uri = ["./test/three_records.gff3"]
 indexDriver(uri, false, indexAttributes);
 
@@ -125,6 +126,9 @@ async function indexDriver(
     })
 
   }
+
+  // let x = createWriteStream("dodo.txt");
+  // aggregateStream.pipe(x);
 
   return runIxIxx(aggregateStream, isTest);
 }
@@ -293,6 +297,7 @@ async function recurseFeatures(
     // it adds it to the record object and attributes
     // string
     for (let attr of attributesArr) {
+
       if (record[attr]) {
         // Check to see if the attr exists for the record
         recordObj[attr] = record[attr];
@@ -309,20 +314,27 @@ async function recurseFeatures(
     // of the string before pushing to ixIxx
     let buff = Buffer.from(JSON.stringify(recordObj), "utf-8");
     let str: string = `${buff.toString("base64")}`;
-    str += attrString;
+    str += attrString + "\n";
 
     gff3Stream.push(str);
-  } else {
+  } else {  
     return;
   }
 
   // recurses through each record to get child features and
   // parses their attributes as well.
-  for (let j = 0; record.length; j++) {
-    for (let i = 0; i < record[j].child_features.length; i++) {
-      recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+  if (record.length) {
+    for (let j = 0; record.length; j++) {
+      for (let i = 0; i < record[j].child_features.length; i++) {
+        recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+      }
     }
   }
+  // else{
+  //   for (let i = 0; i < record[j].child_features.length; i++) {
+  //     recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+  //   }
+  // }
 }
 
 // Given a readStream of data, indexes the stream into .ix and .ixx files using ixIxx.
