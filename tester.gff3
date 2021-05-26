@@ -1,0 +1,35 @@
+##gff-version 3
+B01	RefSeq	gene	305	19656	.	-	.	ID=gene0;Name=100649911;Dbxref=NCBI_Gene:100649911;symbol_ncbi=LOC100649911;description=uncharacterized LOC100649911;gene_biotype=protein_coding;feature_type=Protein Coding
+B01	RefSeq	mRNA	305	19656	.	-	.	ID=rna0;Parent=gene0;Name=XM_012316519.2;Dbxref=NCBI_Gene:100649911,RefSeq_NA:XM_012316519.2,RefSeq_Prot:XP_012171909.1;description=uncharacterized LOC100649911;Note=uncharacterized LOC100649911 prot_id:XP_012171909.1 Symbol:LOC100649911;symbol_ncbi=LOC100649911;model_evidence=Supporting evidence includes similarity to: 8 Proteins%252C and 100%25 coverage of the annotated genomic feature by RNAseq alignments%252C including 39 samples with support for all annotated introns;feature_type=Protein Coding
+B01	RefSeq	exon	17519	19656	.	-	.	ID=exon0;Parent=rna0
+B01	RefSeq	exon	7122	7318	.	-	.	ID=exon1;Parent=rna0
+B01	RefSeq	exon	305	2524	.	-	.	ID=exon2;Parent=rna0
+B01	RefSeq	CDS	17519	18548	.	-	0	ID=cds0;Parent=rna0
+B01	RefSeq	CDS	7122	7318	.	-	2	ID=cds1;Parent=rna0
+B01	RefSeq	CDS	2279	2524	.	-	0	ID=cds2;Parent=rna0
+B01	RefSeq	gene	60725	70662	.	+	.	ID=gene1;Name=100648154;Dbxref=NCBI_Gene:100648154;symbol_ncbi=LOC100648154;description=homeobox protein MSX-1;gene_biotype=protein_coding;feature_type=Protein Coding
+B01	RefSeq	mRNA	60725	70662	.	+	.	ID=rna1;Parent=gene1;Name=XM_003392857.3;Dbxref=NCBI_Gene:100648154,RefSeq_NA:XM_003392857.3,RefSeq_Prot:XP_003392905.2;description=homeobox protein MSX-1;Note=homeobox protein MSX-1 prot_id:XP_003392905.2 Symbol:LOC100648154;symbol_ncbi=LOC100648154;model_evidence=Supporting evidence includes similarity to: 7 Proteins%252C and 100%25 coverage of the annotated genomic feature by RNAseq alignments%252C including 30 samples with support for all annotated introns;feature_type=Protein Coding
+B01	RefSeq	exon	60725	61336	.	+	.	ID=exon3;Parent=rna1
+B01	RefSeq	exon	62404	63113	.	+	.	ID=exon4;Parent=rna1
+B01	RefSeq	exon	67910	68091	.	+	.	ID=exon5;Parent=rna1
+B01	RefSeq	exon	69599	70662	.	+	.	ID=exon6;Parent=rna1
+B01	RefSeq	CDS	61194	61336	.	+	0	ID=cds3;Parent=rna1
+B01	RefSeq	CDS	62404	63113	.	+	1	ID=cds4;Parent=rna1
+B01	RefSeq	CDS	67910	68091	.	+	2	ID=cds5;Parent=rna1
+B01	RefSeq	CDS	69599	69817	.	+	0	ID=cds6;Parent=rna1
+B01	RefSeq	gene	130776	134746	.	+	.	ID=gene2;Name=100648043;Dbxref=NCBI_Gene:100648043;symbol_ncbi=LOC100648043;description=homeobox protein Nkx-2.5-like;gene_biotype=protein_coding;feature_type=Protein Coding
+B01	RefSeq	mRNA	130776	134746	.	+	.	ID=rna2;Parent=gene2;Name=XM_003392856.3;Dbxref=NCBI_Gene:100648043,RefSeq_NA:XM_003392856.3,RefSeq_Prot:XP_003392904.1;description=homeobox protein Nkx-2.5-like;Note=homeobox protein Nkx-2.5-like prot_id:XP_003392904.1 Symbol:LOC100648043;symbol_ncbi=LOC100648043;model_evidence=Supporting evidence includes similarity to: 6 Proteins%252C and 100%25 coverage of the annotated genomic feature by RNAseq alignments%252C including 10 samples with support for all annotated introns;feature_type=Protein Coding
+B01	RefSeq	exon	130776	132485	.	+	.	ID=exon7;Parent=rna2
+B01	RefSeq	exon	132603	132691	.	+	.	ID=exon8;Parent=rna2
+B01	RefSeq	exon	132927	134746	.	+	.	ID=exon9;Parent=rna2
+B01	RefSeq	CDS	132191	132485	.	+	0	ID=cds7;Parent=rna2
+B01	RefSeq	CDS	132603	132691	.	+	2	ID=cds8;Parent=rna2
+B01	RefSeq	CDS	132927	133697	.	+	0	ID=cds9;Parent=rna2
+B01	RefSeq	gene	141041	146701	.	+	.	ID=gene3;Name=100647922;Dbxref=NCBI_Gene:100647922;symbol_ncbi=LOC100647922;description=transcription factor LBX1;gene_biotype=protein_coding;feature_type=Protein Coding
+B01	RefSeq	mRNA	141041	146701	.	+	.	ID=rna3;Parent=gene3;Name=XM_003392855.3;Dbxref=NCBI_Gene:100647922,RefSeq_NA:XM_003392855.3,RefSeq_Prot:XP_003392903.1;description=transcription factor LBX1;Note=transcription factor LBX1 prot_id:XP_003392903.1 Symbol:LOC100647922;symbol_ncbi=LOC100647922;model_evidence=Supporting evidence includes similarity to: 5 Proteins%252C and 100%25 coverage of the annotated genomic feature by RNAseq alignments%252C including 26 samples with support for all annotated introns;feature_type=Protein Coding
+B01	RefSeq	exon	141041	142025	.	+	.	ID=exon10;Parent=rna3
+B01	RefSeq	exon	144863	145079	.	+	.	ID=exon11;Parent=rna3
+B01	RefSeq	exon	145401	146701	.	+	.	ID=exon12;Parent=rna3
+B01	RefSeq	CDS	141545	142025	.	+	0	ID=cds10;Parent=rna3
+B01	RefSeq	CDS	144863	145079	.	+	2	ID=cds11;Parent=rna3
+B01	RefSeq	CDS	145401	145725	.	+	1	ID=cds12;Parent=rna3
