@@ -302,7 +302,7 @@ async function recurseFeatures(
         // Check to see if the attr exists for the record
         recordObj[attr] = record[attr];
         attrString += " " + recordObj[attr];
-      } else if (record.attributes[attr]) {
+      } else if (record.attributes && record.attributes[attr]) {
         // Name and ID are in the attributes object, so check there too
         recordObj[attr] = record.attributes[attr];
         attrString += " " + recordObj[attr];
@@ -323,21 +323,23 @@ async function recurseFeatures(
 
   // recurses through each record to get child features and
   // parses their attributes as well.
-
-  if(Array.isArray(record)){
-    if (record.length) { 
-      for (let j = 0; record.length; j++) {
-        for (let i = 0; i < record[j].child_features.length; i++) {
-          recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+  if (record.child_features) {
+    if(Array.isArray(record)){
+      if (record.length) { 
+        for (let j = 0; record.length; j++) {
+          for (let i = 0; i < record[j].child_features.length; i++) {
+            recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+          }
         }
       }
-    }
-  }else{
-    //console.log("this is an object")
-    for(let i = 0; i < record['child_features'].length;i++){
-      recurseFeatures(record.child_features[i], gff3Stream, attributesArr);
+    }else{
+      //console.log("this is an object")
+      for(let i = 0; i < record['child_features'].length;i++){
+        recurseFeatures(record.child_features[i], gff3Stream, attributesArr);
+      }
     }
   }
+  
   
   // else{
   //   for (let i = 0; i < record[j].child_features.length; i++) {
