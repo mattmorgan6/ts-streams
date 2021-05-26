@@ -323,13 +323,22 @@ async function recurseFeatures(
 
   // recurses through each record to get child features and
   // parses their attributes as well.
-  if (record.length) {
-    for (let j = 0; record.length; j++) {
-      for (let i = 0; i < record[j].child_features.length; i++) {
-        recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+
+  if(Array.isArray(record)){
+    if (record.length) { 
+      for (let j = 0; record.length; j++) {
+        for (let i = 0; i < record[j].child_features.length; i++) {
+          recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+        }
       }
     }
+  }else{
+    //console.log("this is an object")
+    for(let i = 0; i < record['child_features'].length;i++){
+      recurseFeatures(record.child_features[i], gff3Stream, attributesArr);
+    }
   }
+  
   // else{
   //   for (let i = 0; i < record[j].child_features.length; i++) {
   //     recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
