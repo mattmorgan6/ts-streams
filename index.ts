@@ -47,9 +47,10 @@ const testObjs = [
 
 const indexAttributes: Array<string> = testObjs[0].attributes;
 
-// const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
+//const uri: string = testObjs[0].indexingConfiguration.gffLocation.uri;
 const uri = ["tester.gff3"]
 //const uri = ["./test/three_records.gff3"]
+//const uri = ["./test/three_records.gff3", "./test/two_records.gff3"]
 indexDriver(uri, false, indexAttributes);
 
 // Diagram of function call flow:
@@ -127,10 +128,10 @@ async function indexDriver(
 
   }
 
-  //let x = createWriteStream("dodo.txt");
-  //aggregateStream.pipe(x);
+  let x = createWriteStream("dodo.txt");
+  aggregateStream.pipe(x);
 
-  return runIxIxx(aggregateStream, isTest);
+  //return runIxIxx(aggregateStream, isTest);
 }
 
 
@@ -333,14 +334,15 @@ async function recurseFeatures(
 
   // recurses through each record to get child features and
   // parses their attributes as well.
-  if (record.child_features) {
+
+  if (record.child_features || record[0].child_features) {
     if(Array.isArray(record)){
       if (record.length) { 
-        for (let j = 0; record.length; j++) {
-          for (let i = 0; i < record[j].child_features.length; i++) {
-            recurseFeatures(record[j].child_features[i], gff3Stream, attributesArr);
+        //for (let j = 0; record.length; j++) {
+          for (let i = 0; i < record[0].child_features.length; i++) {
+            recurseFeatures(record[0].child_features[i], gff3Stream, attributesArr);
           }
-        }
+        //}
       }
     }else{
       for(let i = 0; i < record['child_features'].length; i++){
