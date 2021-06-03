@@ -51,7 +51,9 @@ const indexAttributes: Array<string> = testObjs[0].attributes;
 // const uri = ["tester.gff3"]
 const uri = ["./test/three_records.gff3"]
 //const uri = ["./test/three_records.gff3", "./test/two_records.gff3"]
-indexDriver(uri, false, indexAttributes);
+indexDriver(uri, true, indexAttributes).catch((data) => {
+  console.log(data)
+})
 
 // Diagram of function call flow:
 
@@ -382,7 +384,9 @@ function runIxIxx(readStream: ReadStream | PassThrough, isTest: boolean) {
     });
 
   // Pass the readStream as stdin into ixProcess.
-  readStream.pipe(ixProcess.stdin);
+  readStream.pipe(ixProcess.stdin).on('error', (e) => {
+    console.log(`Error writing data to ixIxx. ${e}`)
+  });
 
   // End the ixProcess stdin when the stream is done.
   readStream.on("end", () => {
@@ -403,15 +407,13 @@ function runIxIxx(readStream: ReadStream | PassThrough, isTest: boolean) {
         );
         return code;
       } else {
-        reject("fail");
-        console.error(`ixIxx exited with code: ${code}`);
+        reject(`ixIxx exited with code: ${code}`);
       }
     });
 
     // Hook up the reject from promise on error
     ixProcess.stderr.on("data", (data) => {
-      reject("fail");
-      console.error(`Error with ixIxx: ${data}`);
+      reject(`Error with ixIxx: ${data}`);
     });
   });
 
