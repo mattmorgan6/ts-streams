@@ -21,7 +21,8 @@ export async function testSearch(searchWord: string, ixFilePath: string, ixxFile
     });
 
     
-    console.log(`Length: ${searchResult.length}`);
-    console.log(`${searchResult}`);
+    console.log(`Number of results: ${searchResult.length}`);
+    for (let x of searchResult)
+        console.log(x);
     
 }
