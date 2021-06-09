@@ -1,8 +1,10 @@
 import { testSearch } from "./searchIndex";
 import { performance } from 'perf_hooks';
 
+let searchTerm = 'rs200000'
+
 const t0 = performance.now()
-testSearch('seg08', 'out.ix', 'out.ixx')
+testSearch(searchTerm, 'out.ix', 'out.ixx')
 const t1 = performance.now()
 console.log("Took: " + (t1 - t0) + " milliseconds")
 
