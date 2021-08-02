@@ -10,14 +10,16 @@
   "license": "ISC",
   "dependencies": {
     "@gmod/gff": "^1.1.2",
+    "@gmod/tabix": "^1.5.0",
     "@gmod/trix": "^0.2.0",
+    "@gmod/vcf": "^4.0.3",
     "@types/follow-redirects": "^1.13.0",
     "follow-redirects": "^1.14.0",
     "generic-filehandle": "^2.1.0",
     "ixixx": "^1.0.4",
     "lzutf8": "^0.6.0",
     "multistream": "^4.1.0",
-    "shorter": "^0.3.1"
+    "typescript": "^3.9.7"
   },
   "devDependencies": {
     "@types/node": "^14.14.41"
