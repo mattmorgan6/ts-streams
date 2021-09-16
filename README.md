@@ -1,6 +1,6 @@
 # JBrowse + Trix Documentation
 
-Note: the code is now all located in index.ts
+Note: the code is now all located in `index.ts`
 
 ## How `ixIxx` works:
 
