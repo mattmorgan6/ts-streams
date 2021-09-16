@@ -1,5 +1,7 @@
 # JBrowse + Trix Documentation
 
+Note: the code is now all located in index.ts
+
 ## How `ixIxx` works:
 
 `ixIxx` is a program that creates Trix indicies. The program takes one file as input and outputs two index files. The input file is formatted as:
