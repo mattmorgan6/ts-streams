@@ -13,7 +13,7 @@
     "@gmod/tabix": "^1.5.0",
     "@gmod/trix": "^0.2.0",
     "@gmod/vcf": "^4.0.3",
-    "follow-redirects": "^1.14.7",
+    "follow-redirects": "^1.14.8",
     "generic-filehandle": "^2.1.0",
     "ixixx": "^1.0.4",
     "lzutf8": "^0.6.0",
